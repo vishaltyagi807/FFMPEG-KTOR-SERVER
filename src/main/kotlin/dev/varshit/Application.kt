@@ -1,6 +1,5 @@
 package dev.varshit
 
-import dev.varshit.plugins.Redis
 import dev.varshit.plugins.configureRouting
 import dev.varshit.plugins.configureSerialization
 import io.ktor.server.application.*
@@ -12,7 +11,7 @@ fun main() {
 }
 
 fun Application.module() {
+    println("Started....")
     configureSerialization()
     configureRouting()
-    Redis.configureRedis()
 }

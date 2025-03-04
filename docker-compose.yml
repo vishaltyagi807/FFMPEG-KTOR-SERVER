@@ -1,0 +1,26 @@
+services:
+#  ffmpeg-service:
+#    image: ffmpeg-kserver
+#    container_name: service
+#    ports:
+#      - "69:69"
+#    volumes:
+#      - ffmpeg_data:/data
+#    environment:
+#      - REDIS_HOST_URL=${REDIS_HOST_URL}
+#      - SUPABASE_URL=${SUPABASE_URL}
+#      - SUPABASE_KEY=${SUPABASE_KEY}
+
+  redis:
+    image: redis:alpine3.21
+    container_name: redis-server
+    command: [ "redis-server", "--requirepass", "H7icVsOBGW0jTlHU7mJ1" ]
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  redis_data:
+    driver: local
+  ffmpeg_data:

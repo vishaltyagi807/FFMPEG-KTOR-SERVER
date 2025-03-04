@@ -22,10 +22,20 @@ object StatusHelper {
     suspend fun setStatus(task: Task, status: String) {
         if (status == Status.TASK_COMPLETED) {
             Supabase.client.from(task.request.table!!)
-                .upsert(Msg(task.request.record!!.id!!, status, task.request.record.videoKey!!, working = false, visibility = true))
+                .upsert(
+                    Msg(
+                        task.request.record!!.id!!,
+                        status,
+                        task.request.record.videoKey!!,
+                        working = false,
+                        visibility = true
+                    )
+                )
         }
-        Supabase.client.from(task.request.table!!).upsert(Msg(task.request.record!!.id!!, status, task.request.record.videoKey!!))
-        Supabase.client.from("video-transcoder").upsert(Msg(task.request.record.id!!, status, task.request.record.videoKey))
+        Supabase.client.from(task.request.table!!)
+            .upsert(Msg(task.request.record!!.id!!, status, task.request.record.videoKey!!))
+        Supabase.client.from("video-transcoder")
+            .upsert(Msg(task.request.record.id!!, status, task.request.record.videoKey))
     }
 
 }

@@ -13,9 +13,4 @@ fun Application.configureSerialization() {
             ignoreUnknownKeys = true
         })
     }
-    routing {
-        get("/json/kotlinx-serialization") {
-            call.respond(mapOf("hello" to "world"))
-        }
-    }
 }

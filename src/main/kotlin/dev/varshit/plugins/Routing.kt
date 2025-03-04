@@ -26,11 +26,38 @@ fun Application.configureRouting() {
             call.respondText("Status : ACTIVE")
         }
         post("/new-video") {
-            val videoReq = call.receive<VideoRequestBody>()
-            val task = Task(0, videoReq)
-            TaskFactory.addTask(task)
-            println("Quenched!...")
-            call.respondText("Quenched!...")
+            try {
+                println("New Request...")
+                val videoReq = call.receive<VideoRequestBody>()
+                val task = Task(0, videoReq)
+                val res = TaskFactory.addTask(task)
+                call.respondText(res)
+            } catch (e: Exception) {
+                call.respondText("ERROR: ${e.message}", status = HttpStatusCode.BadRequest)
+            }
+        }
+        delete("/cancel-current-task") {
+            try {
+                TaskFactory.cancelCurrentTask()
+                call.respondText("SUCCESS")
+            } catch (e: Exception) {
+                call.respondText("ERROR: ${e.message}", status = HttpStatusCode.BadRequest)
+            }
+        }
+        delete("/delete-all-tasks") {
+            try {
+                TaskFactory.deleteAllTasks()
+                call.respondText("SUCCESS")
+            } catch (e: Exception) {
+                call.respondText("ERROR: ${e.message}", status = HttpStatusCode.BadRequest)
+            }
+        }
+        get("/get-all-tasks") {
+            try {
+                call.respond(TaskFactory.getAllTasks())
+            } catch (e: Exception) {
+                call.respondText("ERROR: ${e.message}", status = HttpStatusCode.BadRequest)
+            }
         }
     }
 }
